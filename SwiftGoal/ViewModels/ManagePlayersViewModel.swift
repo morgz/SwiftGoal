@@ -7,6 +7,8 @@
 //
 
 import ReactiveCocoa
+import RxSwift
+import RxCocoa
 
 class ManagePlayersViewModel {
 
@@ -22,7 +24,7 @@ class ManagePlayersViewModel {
     let contentChangesSignal: Signal<PlayerChangeset, NoError>
     let isLoading: MutableProperty<Bool>
     let alertMessageSignal: Signal<String, NoError>
-    let selectedPlayers: MutableProperty<Set<Player>>
+    let selectedPlayers = Variable([Player]())
     let inputIsValid = MutableProperty(false)
 
     // Actions
@@ -41,11 +43,11 @@ class ManagePlayersViewModel {
 
     // MARK: Lifecycle
 
-    init(store: StoreType, initialPlayers: Set<Player>, disabledPlayers: Set<Player>) {
+    init(store: StoreType, initialPlayers: [Player], disabledPlayers: Set<Player>) {
         self.title = "Players"
         self.store = store
         self.players = []
-        self.selectedPlayers = MutableProperty(initialPlayers)
+        self.selectedPlayers.value = initialPlayers
         self.disabledPlayers = disabledPlayers
 
         let (refreshSignal, refreshObserver) = SignalProducer<Void, NoError>.buffer()
@@ -131,12 +133,12 @@ class ManagePlayersViewModel {
 
     func selectPlayerAtIndexPath(indexPath: NSIndexPath) {
         let player = playerAtIndexPath(indexPath)
-        selectedPlayers.value.insert(player)
+        selectedPlayers.value.append(player)
     }
 
     func deselectPlayerAtIndexPath(indexPath: NSIndexPath) {
         let player = playerAtIndexPath(indexPath)
-        selectedPlayers.value.remove(player)
+        selectedPlayers.value.append(player)
     }
 
     // MARK: Internal Helpers

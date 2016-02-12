@@ -37,8 +37,12 @@ class EditMatchViewController: UIViewController {
         self.saveButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Save,
             target: self.saveAction,
-            action: CocoaAction.selector
+            action: nil
         )
+        
+        self.saveButtonItem.rx_tap.subscribeNext { () -> Void in
+            print("Button Pressed")
+        }
 
         super.init(nibName: nil, bundle: nil)
 
@@ -154,12 +158,23 @@ class EditMatchViewController: UIViewController {
         viewModel.formattedAwayGoals.asObservable().bindTo(self.awayGoalsLabel.rx_text)
             .addDisposableTo(self.disposeBag)
 
-
-        viewModel.homePlayersString.producer
-            .observeOn(UIScheduler())
-            .startWithNext({ [weak self] homePlayersString in
-                self?.homePlayersButton.setTitle(homePlayersString, forState: .Normal)
-            })
+        
+        /////////
+        //
+        // Players
+        //
+        //
+        
+        // ReactiveCocoa:
+//        viewModel.homePlayersString.producer
+//            .observeOn(UIScheduler())
+//            .startWithNext({ [weak self] homePlayersString in
+//                self?.homePlayersButton.setTitle(homePlayersString, forState: .Normal)
+//                })
+        
+        self.viewModel.homePlayersString.asObservable().subscribeNext { [weak self] (homePlayerString) -> Void in
+            self?.homePlayersButton.setTitle(homePlayerString, forState: .Normal)
+        }.addDisposableTo(self.disposeBag)
 
         viewModel.awayPlayersString.producer
             .observeOn(UIScheduler())
@@ -245,9 +260,9 @@ class EditMatchViewController: UIViewController {
     }
 
     func awayPlayersButtonTapped() {
-        let awayPlayersViewModel = viewModel.manageAwayPlayersViewModel()
-        let awayPlayersViewController = ManagePlayersViewController(viewModel: awayPlayersViewModel)
-        self.navigationController?.pushViewController(awayPlayersViewController, animated: true)
+//        let awayPlayersViewModel = viewModel.manageAwayPlayersViewModel()
+//        let awayPlayersViewController = ManagePlayersViewController(viewModel: awayPlayersViewModel)
+//        self.navigationController?.pushViewController(awayPlayersViewController, animated: true)
     }
 
     // MARK: Private Helpers
