@@ -7,20 +7,25 @@
 //
 
 import ReactiveCocoa
+import RxSwift
 
 class EditMatchViewModel {
 
     // Inputs
-    let homeGoals: MutableProperty<Int>
+    //let homeGoals: MutableProperty<Int>
+    let homeGoals = Variable(0)
     let awayGoals: MutableProperty<Int>
 
     // Outputs
     let title: String
-    let formattedHomeGoals = MutableProperty<String>("")
+    //let formattedHomeGoals = MutableProperty<String>("")
+    let formattedHomeGoals = Variable("")
     let formattedAwayGoals = MutableProperty<String>("")
     let homePlayersString = MutableProperty<String>("")
     let awayPlayersString = MutableProperty<String>("")
     let inputIsValid = MutableProperty<Bool>(false)
+    
+    let disposeBag = DisposeBag()
 
     // Actions
     lazy var saveAction: Action<Void, Bool, NSError> = { [unowned self] in
@@ -54,10 +59,14 @@ class EditMatchViewModel {
         self.title = (match != nil ? "Edit Match" : "New Match")
         self.homePlayers = MutableProperty(Set<Player>(match?.homePlayers ?? []))
         self.awayPlayers = MutableProperty(Set<Player>(match?.awayPlayers ?? []))
-        self.homeGoals = MutableProperty(match?.homeGoals ?? 0)
+        self.homeGoals.value = match?.homeGoals ?? 0
         self.awayGoals = MutableProperty(match?.awayGoals ?? 0)
-
-        self.formattedHomeGoals <~ homeGoals.producer.map { goals in return "\(goals)" }
+        
+        //When our goals change then update our formatted text
+        self.homeGoals.asObservable().subscribeNext { (goals) -> Void in
+            self.formattedHomeGoals.value = "\(goals)"
+        }.addDisposableTo(self.disposeBag)
+        
         self.formattedAwayGoals <~ awayGoals.producer.map { goals in return "\(goals)" }
 
         self.homePlayersString <~ homePlayers.producer

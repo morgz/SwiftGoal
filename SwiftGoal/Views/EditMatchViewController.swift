@@ -9,6 +9,8 @@
 import UIKit
 import ReactiveCocoa
 import SnapKit
+import RxCocoa
+import RxSwift
 
 class EditMatchViewController: UIViewController {
 
@@ -24,6 +26,8 @@ class EditMatchViewController: UIViewController {
 
     private var saveAction: CocoaAction
     private let saveButtonItem: UIBarButtonItem
+    
+    let disposeBag = DisposeBag()
 
     // MARK: Lifecycle
 
@@ -120,15 +124,29 @@ class EditMatchViewController: UIViewController {
         // Initial values
         homeGoalsStepper.value = Double(viewModel.homeGoals.value)
         awayGoalsStepper.value = Double(viewModel.awayGoals.value)
+        
+        // ReactiveCocoa:
+// viewModel.homeGoals <~ homeGoalsStepper.signalProducer()
 
-        viewModel.homeGoals <~ homeGoalsStepper.signalProducer()
+        homeGoalsStepper
+            .rx_value
+            .map{Int($0)}
+            .bindTo(viewModel.homeGoals)
+            .addDisposableTo(disposeBag)
+        
+
         viewModel.awayGoals <~ awayGoalsStepper.signalProducer()
-
-        viewModel.formattedHomeGoals.producer
-            .observeOn(UIScheduler())
-            .startWithNext({ [weak self] formattedHomeGoals in
-                self?.homeGoalsLabel.text = formattedHomeGoals
-            })
+        
+        // ReactiveCocoa:
+//        viewModel.formattedHomeGoals.producer
+//            .observeOn(UIScheduler())
+//            .startWithNext({ [weak self] formattedHomeGoals in
+//                self?.homeGoalsLabel.text = formattedHomeGoals
+//            })
+        
+        viewModel.formattedHomeGoals.asObservable().bindTo(self.homeGoalsLabel.rx_text)
+            .addDisposableTo(disposeBag)
+        
 
         viewModel.formattedAwayGoals.producer
             .observeOn(UIScheduler())

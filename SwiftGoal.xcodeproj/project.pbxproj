@@ -47,6 +47,9 @@
 		0FF57F381B433EFD001DD570 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF57F371B433EFD001DD570 /* PlayerCell.swift */; };
 		0FF7B8B81B3A0CB300808433 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7B8B71B3A0CB300808433 /* Extensions.swift */; };
 		0FFA97041B76C9D900DD4F58 /* EditMatchViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFA97031B76C9D900DD4F58 /* EditMatchViewModelSpec.swift */; };
+		1B057C851C6DE8E5002E2711 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C841C6DE8E5002E2711 /* RxSwift.framework */; };
+		1B057C871C6DE914002E2711 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C861C6DE914002E2711 /* RxCocoa.framework */; };
+		1B057C891C6DE971002E2711 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C881C6DE971002E2711 /* RxBlocking.framework */; };
 		5B459DFA1C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B459DF91C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift */; };
 		5B459DFC1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B459DFB1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift */; };
 		5BF62C941C3819E5006E97C6 /* RankingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF62C931C3819E5006E97C6 /* RankingEngine.swift */; };
@@ -123,6 +126,9 @@
 		0FF57F371B433EFD001DD570 /* PlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		0FF7B8B71B3A0CB300808433 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0FFA97031B76C9D900DD4F58 /* EditMatchViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMatchViewModelSpec.swift; sourceTree = "<group>"; };
+		1B057C841C6DE8E5002E2711 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		1B057C861C6DE914002E2711 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		1B057C881C6DE971002E2711 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/iOS/RxBlocking.framework; sourceTree = "<group>"; };
 		5B459DF91C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsViewModelSpec.swift; sourceTree = "<group>"; };
 		5B459DFB1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagePlayersViewModelSpec.swift; sourceTree = "<group>"; };
 		5BF62C931C3819E5006E97C6 /* RankingEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingEngine.swift; sourceTree = "<group>"; };
@@ -139,6 +145,9 @@
 			files = (
 				0FE96BEA1B24D77700506E60 /* Argo.framework in Frameworks */,
 				0FE2A7481B66CE17001F5C5B /* DZNEmptyDataSet.framework in Frameworks */,
+				1B057C871C6DE914002E2711 /* RxCocoa.framework in Frameworks */,
+				1B057C891C6DE971002E2711 /* RxBlocking.framework in Frameworks */,
+				1B057C851C6DE8E5002E2711 /* RxSwift.framework in Frameworks */,
 				0FA80BDE1B013F33000531E3 /* ReactiveCocoa.framework in Frameworks */,
 				0FA80BDF1B013F33000531E3 /* Result.framework in Frameworks */,
 				0F2EF82A1B24FE9400BABC20 /* SnapKit.framework in Frameworks */,
@@ -260,6 +269,9 @@
 		0FA80BE01B013F3A000531E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B057C881C6DE971002E2711 /* RxBlocking.framework */,
+				1B057C861C6DE914002E2711 /* RxCocoa.framework */,
+				1B057C841C6DE8E5002E2711 /* RxSwift.framework */,
 				0FE96BE81B24D77700506E60 /* Argo.framework */,
 				0FE2A7461B66CD06001F5C5B /* DZNEmptyDataSet.framework */,
 				0F79DAE81BCDBB170073988A /* Nimble.framework */,
@@ -445,6 +457,9 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Argo.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/DZNEmptyDataSet.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxBlocking.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 			);
 			outputPaths = (
 			);
