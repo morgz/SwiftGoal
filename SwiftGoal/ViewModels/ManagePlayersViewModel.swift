@@ -37,18 +37,18 @@ class ManagePlayersViewModel {
     private let store: StoreType
     private let contentChangesObserver: Observer<PlayerChangeset, NoError>
     private let alertMessageObserver: Observer<String, NoError>
-    private let disabledPlayers: Set<Player>
+    private let disabledPlayers = Variable([Player]())
 
     private var players: [Player]
 
     // MARK: Lifecycle
 
-    init(store: StoreType, initialPlayers: [Player], disabledPlayers: Set<Player>) {
+    init(store: StoreType, initialPlayers: [Player], disabledPlayers: [Player]) {
         self.title = "Players"
         self.store = store
         self.players = []
         self.selectedPlayers.value = initialPlayers
-        self.disabledPlayers = disabledPlayers
+        self.disabledPlayers.value = disabledPlayers
 
         let (refreshSignal, refreshObserver) = SignalProducer<Void, NoError>.buffer()
         self.refreshObserver = refreshObserver
@@ -126,7 +126,7 @@ class ManagePlayersViewModel {
 
     func canSelectPlayerAtIndexPath(indexPath: NSIndexPath) -> Bool {
         let player = playerAtIndexPath(indexPath)
-        return !disabledPlayers.contains(player)
+        return !disabledPlayers.value.contains(player)
     }
 
     // MARK: Player Selection

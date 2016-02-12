@@ -172,15 +172,13 @@ class EditMatchViewController: UIViewController {
 //                self?.homePlayersButton.setTitle(homePlayersString, forState: .Normal)
 //                })
         
-        self.viewModel.homePlayersString.asObservable().subscribeNext { [weak self] (homePlayerString) -> Void in
-            self?.homePlayersButton.setTitle(homePlayerString, forState: .Normal)
-        }.addDisposableTo(self.disposeBag)
-
-        viewModel.awayPlayersString.producer
-            .observeOn(UIScheduler())
-            .startWithNext({ [weak self] awayPlayersString in
-                self?.awayPlayersButton.setTitle(awayPlayersString, forState: .Normal)
-            })
+        self.viewModel.homePlayersString.asObservable().subscribeNext { [unowned self] (homePlayerString) -> Void in
+            self.homePlayersButton.setTitle(homePlayerString, forState: .Normal)
+        }.addDisposableTo(disposeBag)
+        
+        self.viewModel.awayPlayersString.asObservable().subscribeNext { [unowned self](awayPlayerString) -> Void in
+            self.awayPlayersButton.setTitle(awayPlayerString, forState: .Normal)
+        }.addDisposableTo(disposeBag)
 
         viewModel.inputIsValid.producer
             .observeOn(UIScheduler())
@@ -260,9 +258,9 @@ class EditMatchViewController: UIViewController {
     }
 
     func awayPlayersButtonTapped() {
-//        let awayPlayersViewModel = viewModel.manageAwayPlayersViewModel()
-//        let awayPlayersViewController = ManagePlayersViewController(viewModel: awayPlayersViewModel)
-//        self.navigationController?.pushViewController(awayPlayersViewController, animated: true)
+        let awayPlayersViewModel = viewModel.manageAwayPlayersViewModel()
+        let awayPlayersViewController = ManagePlayersViewController(viewModel: awayPlayersViewModel)
+        self.navigationController?.pushViewController(awayPlayersViewController, animated: true)
     }
 
     // MARK: Private Helpers

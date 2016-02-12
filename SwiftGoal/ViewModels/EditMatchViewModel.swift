@@ -24,7 +24,7 @@ class EditMatchViewModel {
     let formattedHomeGoals = Variable("")
     let formattedAwayGoals = Variable("")
     let homePlayersString = Variable("")
-    let awayPlayersString = MutableProperty<String>("")
+    let awayPlayersString = Variable("")
     let inputIsValid = MutableProperty<Bool>(false)
     
     let disposeBag = DisposeBag()
@@ -54,8 +54,7 @@ class EditMatchViewModel {
     // ReactiveCocoa:
     //private let homePlayers: MutableProperty<Set<Player>>
     private let homePlayers = Variable([Player]())
-    
-    private let awayPlayers: MutableProperty<Set<Player>>
+    private let awayPlayers = Variable([Player]())
 
     // MARK: Lifecycle
 
@@ -69,8 +68,8 @@ class EditMatchViewModel {
         // ReactiveCocoa:
         // self.homePlayers = MutableProperty(Set<Player>(match?.homePlayers ?? []))
         self.homePlayers.value = match?.homePlayers ?? []
-            
-        self.awayPlayers = MutableProperty(Set<Player>(match?.awayPlayers ?? []))
+        self.awayPlayers.value = match?.awayPlayers ?? []
+
         self.homeGoals.value = match?.homeGoals ?? 0
         
         // ReactiveCocoa:
@@ -99,14 +98,17 @@ class EditMatchViewModel {
             .map { (players) -> String in
                 return players.isEmpty ? "Set Home Players" : players.map({ $0.name }).joinWithSeparator(", ")
             }
-            .bindTo(self.homePlayersString)
+            .bindTo(homePlayersString)
             .addDisposableTo(disposeBag)
         
-        
-        self.awayPlayersString <~ awayPlayers.producer
-            .map { players in
-                return players.isEmpty ? "Set Away Players" : players.map({ $0.name }).joinWithSeparator(", ")
+        self.awayPlayers
+            .asObservable()
+            .map { (players) -> String in
+                return players.isEmpty ? "Set Away Players" : players.map({$0.name}).joinWithSeparator(", ")
             }
+            .bindTo(awayPlayersString)
+            .addDisposableTo(disposeBag)
+        
         /*
         self.inputIsValid <~ combineLatest(homePlayers.producer, awayPlayers.producer)
             .map { (homePlayers, awayPlayers) in
@@ -130,7 +132,8 @@ class EditMatchViewModel {
         // ReactiveCocoa:
 //        self.homePlayers <~ homePlayersViewModel.selectedPlayers
         
-        homePlayersViewModel.selectedPlayers
+        homePlayersViewModel
+            .selectedPlayers
             .asObservable()
             .bindTo(homePlayers)
             .addDisposableTo(disposeBag)
@@ -138,17 +141,19 @@ class EditMatchViewModel {
         return homePlayersViewModel
     }
 
-    //TODO:
-    /*
     func manageAwayPlayersViewModel() -> ManagePlayersViewModel {
         let awayPlayersViewModel = ManagePlayersViewModel(
             store: store,
             initialPlayers: awayPlayers.value,
             disabledPlayers: homePlayers.value
         )
-        self.awayPlayers <~ awayPlayersViewModel.selectedPlayers
+        
+        awayPlayersViewModel
+            .selectedPlayers
+            .asObservable()
+            .bindTo(awayPlayers)
+            .addDisposableTo(disposeBag)
 
         return awayPlayersViewModel
     }
-    */
 }
