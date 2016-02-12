@@ -122,20 +122,24 @@ class EditMatchViewController: UIViewController {
         self.title = viewModel.title
 
         // Initial values
-        homeGoalsStepper.value = Double(viewModel.homeGoals.value)
-        awayGoalsStepper.value = Double(viewModel.awayGoals.value)
+        self.homeGoalsStepper.value = Double(viewModel.homeGoals.value)
+        self.awayGoalsStepper.value = Double(viewModel.awayGoals.value)
         
         // ReactiveCocoa:
 // viewModel.homeGoals <~ homeGoalsStepper.signalProducer()
 
-        homeGoalsStepper
+        self.homeGoalsStepper
             .rx_value
             .map{Int($0)}
             .bindTo(viewModel.homeGoals)
             .addDisposableTo(disposeBag)
         
 
-        viewModel.awayGoals <~ awayGoalsStepper.signalProducer()
+        self.awayGoalsStepper
+            .rx_value
+            .map{Int($0)}
+            .bindTo(viewModel.awayGoals)
+            .addDisposableTo(self.disposeBag)
         
         // ReactiveCocoa:
 //        viewModel.formattedHomeGoals.producer
@@ -147,12 +151,9 @@ class EditMatchViewController: UIViewController {
         viewModel.formattedHomeGoals.asObservable().bindTo(self.homeGoalsLabel.rx_text)
             .addDisposableTo(disposeBag)
         
+        viewModel.formattedAwayGoals.asObservable().bindTo(self.awayGoalsLabel.rx_text)
+            .addDisposableTo(self.disposeBag)
 
-        viewModel.formattedAwayGoals.producer
-            .observeOn(UIScheduler())
-            .startWithNext({ [weak self] formattedAwayGoals in
-                self?.awayGoalsLabel.text = formattedAwayGoals
-            })
 
         viewModel.homePlayersString.producer
             .observeOn(UIScheduler())
