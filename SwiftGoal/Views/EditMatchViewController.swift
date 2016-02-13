@@ -42,7 +42,7 @@ class EditMatchViewController: UIViewController {
         
         self.saveButtonItem.rx_tap.subscribeNext { () -> Void in
             print("Button Pressed")
-        }
+        }.addDisposableTo(disposeBag)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -180,11 +180,17 @@ class EditMatchViewController: UIViewController {
             self.awayPlayersButton.setTitle(awayPlayerString, forState: .Normal)
         }.addDisposableTo(disposeBag)
 
-        viewModel.inputIsValid.producer
-            .observeOn(UIScheduler())
-            .startWithNext({ [weak self] inputIsValid in
-                self?.saveButtonItem.enabled = inputIsValid
-            })
+        // ReactiveCocoa:
+//        viewModel.inputIsValid.producer
+//            .observeOn(UIScheduler())
+//            .startWithNext({ [weak self] inputIsValid in
+//                self?.saveButtonItem.enabled = inputIsValid
+//            })
+        
+        viewModel.inputIsValid
+            .asObservable()
+            .bindTo(saveButtonItem.rx_enabled)
+            .addDisposableTo(disposeBag)
 
         viewModel.saveAction.events.observeNext({ [weak self] event in
             switch event {

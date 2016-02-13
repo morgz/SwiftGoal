@@ -138,7 +138,7 @@ class ManagePlayersViewModel {
 
     func deselectPlayerAtIndexPath(indexPath: NSIndexPath) {
         let player = playerAtIndexPath(indexPath)
-        selectedPlayers.value.append(player)
+        selectedPlayers.value.removeObject(player)
     }
 
     // MARK: Internal Helpers

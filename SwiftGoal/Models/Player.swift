@@ -8,7 +8,7 @@
 
 import Argo
 
-struct Player {
+struct Player: Equatable {
     let identifier: String
     let name: String
 
@@ -38,7 +38,7 @@ struct Player {
     }
 }
 
-// MARK: Equatable
+//extension Player: Equatable {
 
 func ==(lhs: Player, rhs: Player) -> Bool {
     return lhs.identifier == rhs.identifier

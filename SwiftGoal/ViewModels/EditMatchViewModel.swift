@@ -25,13 +25,14 @@ class EditMatchViewModel {
     let formattedAwayGoals = Variable("")
     let homePlayersString = Variable("")
     let awayPlayersString = Variable("")
-    let inputIsValid = MutableProperty<Bool>(false)
+    let inputIsValid = Variable(false)
     
     let disposeBag = DisposeBag()
 
     // Actions
     lazy var saveAction: Action<Void, Bool, NSError> = { [unowned self] in
-        return Action(enabledIf: self.inputIsValid, { _ in
+        //return Action(enabledIf: self.inputIsValid, { _ in
+        return Action({ _ in
             /*
             let parameters = MatchParameters(
                 homePlayers: self.homePlayers.value,
@@ -108,6 +109,13 @@ class EditMatchViewModel {
             }
             .bindTo(awayPlayersString)
             .addDisposableTo(disposeBag)
+        
+        
+//        Observable.combineLatest(homePlayers.asObservable(), awayPlayers.asObservable()) { $0.count > 0 && $1.count > 0 }
+//           .shareReplay(1).bindTo(self.inputIsValid).addDisposableTo(disposeBag)
+     
+        Observable.combineLatest(homePlayers.asObservable(), awayPlayers.asObservable()) { $0.count > 0 && $1.count > 0 }
+            .bindTo(self.inputIsValid).addDisposableTo(disposeBag)
         
         /*
         self.inputIsValid <~ combineLatest(homePlayers.producer, awayPlayers.producer)

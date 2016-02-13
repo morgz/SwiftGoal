@@ -50,6 +50,7 @@
 		1B057C851C6DE8E5002E2711 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C841C6DE8E5002E2711 /* RxSwift.framework */; };
 		1B057C871C6DE914002E2711 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C861C6DE914002E2711 /* RxCocoa.framework */; };
 		1B057C891C6DE971002E2711 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C881C6DE971002E2711 /* RxBlocking.framework */; };
+		1B43A99B1C6F6F2E00492E02 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B43A99A1C6F6F2E00492E02 /* Array+Extensions.swift */; };
 		5B459DFA1C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B459DF91C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift */; };
 		5B459DFC1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B459DFB1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift */; };
 		5BF62C941C3819E5006E97C6 /* RankingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF62C931C3819E5006E97C6 /* RankingEngine.swift */; };
@@ -129,6 +130,7 @@
 		1B057C841C6DE8E5002E2711 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		1B057C861C6DE914002E2711 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 		1B057C881C6DE971002E2711 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/iOS/RxBlocking.framework; sourceTree = "<group>"; };
+		1B43A99A1C6F6F2E00492E02 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		5B459DF91C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsViewModelSpec.swift; sourceTree = "<group>"; };
 		5B459DFB1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagePlayersViewModelSpec.swift; sourceTree = "<group>"; };
 		5BF62C931C3819E5006E97C6 /* RankingEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingEngine.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		0F74F6EC1B0002C400F963E0 /* SwiftGoal */ = {
 			isa = PBXGroup;
 			children = (
+				1B43A99C1C6F6F4600492E02 /* Extensions */,
 				0F74F6EF1B0002C400F963E0 /* AppDelegate.swift */,
 				0F74F6F61B0002C400F963E0 /* Images.xcassets */,
 				0F74F6F81B0002C400F963E0 /* LaunchScreen.xib */,
@@ -334,6 +337,14 @@
 				5BF62C931C3819E5006E97C6 /* RankingEngine.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		1B43A99C1C6F6F4600492E02 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1B43A99A1C6F6F2E00492E02 /* Array+Extensions.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		5BF62C951C381A25006E97C6 /* Helpers */ = {
@@ -493,6 +504,7 @@
 				0FE4EB731B38760B007F9349 /* EditMatchViewModel.swift in Sources */,
 				0F74F6F01B0002C400F963E0 /* AppDelegate.swift in Sources */,
 				5BF62C941C3819E5006E97C6 /* RankingEngine.swift in Sources */,
+				1B43A99B1C6F6F2E00492E02 /* Array+Extensions.swift in Sources */,
 				0FF7B8B81B3A0CB300808433 /* Extensions.swift in Sources */,
 				0F9D10B91B625124002B9A20 /* Ranking.swift in Sources */,
 				0F2EF8281B24FBF800BABC20 /* MatchCell.swift in Sources */,
