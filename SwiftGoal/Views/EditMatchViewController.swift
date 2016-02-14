@@ -24,27 +24,25 @@ class EditMatchViewController: UIViewController {
     private weak var homePlayersButton: UIButton!
     private weak var awayPlayersButton: UIButton!
 
-    private var saveAction: CocoaAction
+    private var saveAction: CocoaAction?
     private let saveButtonItem: UIBarButtonItem
     
     let disposeBag = DisposeBag()
 
-    // MARK: Lifecycle
+
 
     init(viewModel: EditMatchViewModel) {
+        
         self.viewModel = viewModel
-        self.saveAction = CocoaAction(viewModel.saveAction, { _ in return () })
+        //self.saveAction = CocoaAction(viewModel.saveAction, { _ in return () })
         self.saveButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Save,
-            target: self.saveAction,
+            target: nil,
             action: nil
         )
         
-        self.saveButtonItem.rx_tap.subscribeNext { () -> Void in
-            print("Button Pressed")
-        }.addDisposableTo(disposeBag)
-
         super.init(nibName: nil, bundle: nil)
+
 
         // Set up navigation item
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -116,12 +114,40 @@ class EditMatchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupActions()
         bindViewModel()
         makeConstraints()
     }
 
-    // MARK: Bindings
-
+    // MARK: Bindings & Actions
+    private func setupActions() {
+        
+        /////////
+        //
+        // Save Match
+        //
+        //
+        self.saveButtonItem.rx_tap.flatMap { [unowned self] _ -> Observable<Bool> in
+            return self.viewModel.saveMatch()
+                //Catching in an Inner FlatMap stops the button being subscription being terminated
+                .catchError({[unowned self] (error) -> Observable<Bool> in
+                    print("Error Caught")
+                    self.presentErrorMessage("The match could not be saved.")
+                    return Observable.just(true)
+                })
+            }.subscribe( 
+                onNext: { [unowned self] (result) -> Void in
+                    print("Next")
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }, onError: { [unowned self] (error) -> Void in
+                    self.presentErrorMessage("The match could not be saved.")
+                }, onCompleted: { () -> Void in
+                    print("Completed")
+                }) { () -> Void in
+                    print("Disposed")
+            }.addDisposableTo(disposeBag)
+    }
+    
     private func bindViewModel() {
         self.title = viewModel.title
 

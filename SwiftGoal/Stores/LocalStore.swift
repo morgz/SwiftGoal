@@ -8,6 +8,7 @@
 
 import Argo
 import ReactiveCocoa
+import RxSwift
 
 class LocalStore: StoreType {
 
@@ -17,6 +18,10 @@ class LocalStore: StoreType {
     private let matchesKey = "matches"
     private let playersKey = "players"
     private let archiveFileName = "LocalStore"
+    
+    enum Error: ErrorType {
+        case MatchDoesntExist // It's not that we aren't authorized.. it's that we've never created a user so why do the request?
+    }
 
     // MARK: Matches
 
@@ -24,22 +29,33 @@ class LocalStore: StoreType {
         return SignalProducer(value: matches)
     }
 
-    func createMatch(parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
-        let identifier = randomIdentifier()
-        let match = matchFromParameters(parameters, withIdentifier: identifier)
-        matches.append(match)
-
-        return SignalProducer(value: true)
+    func createMatch(parameters: MatchParameters) -> Observable<Bool> {
+        
+        return Observable.create { [unowned self] observer in
+            let identifier = self.randomIdentifier()
+            let match = self.matchFromParameters(parameters, withIdentifier: identifier)
+            self.matches.append(match)
+            observer.on(.Next(true))
+            observer.on(.Completed)
+            //observer.on(.Error(Error.MatchDoesntExist)) //No Error cases
+            return AnonymousDisposable {}
+        }
     }
 
-    func updateMatch(match: Match, parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
-        if let oldMatchIndex = matches.indexOf(match) {
-            let newMatch = matchFromParameters(parameters, withIdentifier: match.identifier)
-            matches.removeAtIndex(oldMatchIndex)
-            matches.insert(newMatch, atIndex: oldMatchIndex)
-            return SignalProducer(value: true)
-        } else {
-            return SignalProducer(value: false)
+    func updateMatch(match: Match, parameters: MatchParameters) -> Observable<Bool> {
+        
+        return Observable.create { [unowned self] observer in
+            if let oldMatchIndex = self.matches.indexOf(match) {
+                let newMatch = self.matchFromParameters(parameters, withIdentifier: match.identifier)
+                self.matches.removeAtIndex(oldMatchIndex)
+                self.matches.insert(newMatch, atIndex: oldMatchIndex)
+                observer.on(.Next(true))
+                observer.on(.Completed)
+            } else {
+                observer.on(.Error(Error.MatchDoesntExist))
+            }
+            
+            return AnonymousDisposable {}
         }
     }
 

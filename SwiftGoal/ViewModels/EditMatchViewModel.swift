@@ -20,6 +20,8 @@ class EditMatchViewModel {
 
     // Outputs
     let title: String
+    
+    // ReactiveCocoa:
     //let formattedHomeGoals = MutableProperty<String>("")
     let formattedHomeGoals = Variable("")
     let formattedAwayGoals = Variable("")
@@ -128,6 +130,27 @@ class EditMatchViewModel {
     convenience init(store: StoreType) {
         self.init(store: store, match: nil)
     }
+    
+    // MARK: Saving
+    func saveMatch() -> Observable<Bool> {
+        
+        let parameters = MatchParameters(
+            homePlayers: self.homePlayers.value,
+            awayPlayers: self.awayPlayers.value,
+            homeGoals: self.homeGoals.value,
+            awayGoals: self.awayGoals.value
+        )
+        
+        if let match = self.match {
+            
+            return self.store.updateMatch(match, parameters: parameters)
+         
+        } else {
+            return self.store.createMatch(parameters)
+        }
+
+    }
+
 
     // MARK: View Models
 

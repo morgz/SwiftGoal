@@ -7,6 +7,8 @@
 //
 
 import ReactiveCocoa
+import RxSwift
+
 @testable import SwiftGoal
 
 class MockStore: StoreType {
@@ -65,12 +67,12 @@ class MockStore: StoreType {
         }
     }
 
-    func createMatch(parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
-        return SignalProducer(value: false)
+    func createMatch(parameters: MatchParameters) -> Observable<Bool> {
+        return Observable.just(false)
     }
 
-    func updateMatch(match: Match, parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
-        return SignalProducer(value: false)
+    func updateMatch(match: Match, parameters: MatchParameters) -> Observable<Bool> {
+        return Observable.just(false)
     }
 
     func deleteMatch(match: Match) -> SignalProducer<Bool, NSError> {

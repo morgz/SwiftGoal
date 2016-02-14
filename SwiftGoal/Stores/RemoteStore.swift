@@ -8,6 +8,8 @@
 
 import Argo
 import ReactiveCocoa
+import RxSwift
+import RxCocoa
 
 class RemoteStore: StoreType {
 
@@ -46,36 +48,44 @@ class RemoteStore: StoreType {
                 }
             }
     }
-
-    func createMatch(parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
-
-        let request = mutableRequestWithURL(matchesURL, method: .POST)
-        request.HTTPBody = httpBodyForMatchParameters(parameters)
-
-        return NSURLSession.sharedSession().rac_dataWithRequest(request)
-            .map { data, response in
-                if let httpResponse = response as? NSHTTPURLResponse {
-                    return httpResponse.statusCode == 201
-                } else {
-                    return false
-                }
-            }
+    
+    func createMatch(parameters: MatchParameters) -> Observable<Bool> {
+        return Observable.just(true)
+    }
+    
+    func updateMatch(match: Match, parameters: MatchParameters) -> Observable<Bool> {
+        return Observable.just(true)
     }
 
-    func updateMatch(match: Match, parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
+//    func createMatch(parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
+//
+//        let request = mutableRequestWithURL(matchesURL, method: .POST)
+//        request.HTTPBody = httpBodyForMatchParameters(parameters)
+//
+//        return NSURLSession.sharedSession().rac_dataWithRequest(request)
+//            .map { data, response in
+//                if let httpResponse = response as? NSHTTPURLResponse {
+//                    return httpResponse.statusCode == 201
+//                } else {
+//                    return false
+//                }
+//            }
+//    }
 
-        let request = mutableRequestWithURL(urlForMatch(match), method: .PUT)
-        request.HTTPBody = httpBodyForMatchParameters(parameters)
-
-        return NSURLSession.sharedSession().rac_dataWithRequest(request)
-            .map { data, response in
-                if let httpResponse = response as? NSHTTPURLResponse {
-                    return httpResponse.statusCode == 200
-                } else {
-                    return false
-                }
-            }
-    }
+//    func updateMatch(match: Match, parameters: MatchParameters) -> SignalProducer<Bool, NSError> {
+//
+//        let request = mutableRequestWithURL(urlForMatch(match), method: .PUT)
+//        request.HTTPBody = httpBodyForMatchParameters(parameters)
+//
+//        return NSURLSession.sharedSession().rac_dataWithRequest(request)
+//            .map { data, response in
+//                if let httpResponse = response as? NSHTTPURLResponse {
+//                    return httpResponse.statusCode == 200
+//                } else {
+//                    return false
+//                }
+//            }
+//    }
 
     func deleteMatch(match: Match) -> SignalProducer<Bool, NSError> {
         let request = mutableRequestWithURL(urlForMatch(match), method: .DELETE)

@@ -7,10 +7,11 @@
 //
 
 import ReactiveCocoa
+import RxSwift
 
 struct MatchParameters {
-    let homePlayers: Set<Player>
-    let awayPlayers: Set<Player>
+    let homePlayers: [Player]
+    let awayPlayers: [Player]
     let homeGoals: Int
     let awayGoals: Int
 }
@@ -18,8 +19,8 @@ struct MatchParameters {
 protocol StoreType {
     // Matches
     func fetchMatches() -> SignalProducer<[Match], NSError>
-    func createMatch(parameters: MatchParameters) -> SignalProducer<Bool, NSError>
-    func updateMatch(match: Match, parameters: MatchParameters) -> SignalProducer<Bool, NSError>
+    func createMatch(parameters: MatchParameters) -> Observable<Bool>
+    func updateMatch(match: Match, parameters: MatchParameters) -> Observable<Bool>
     func deleteMatch(match: Match) -> SignalProducer<Bool, NSError>
 
     // Players
