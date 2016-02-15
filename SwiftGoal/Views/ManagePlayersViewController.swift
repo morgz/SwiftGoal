@@ -166,7 +166,7 @@ class ManagePlayersViewController: UITableViewController {
         // Add user actions
         newPlayerViewController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         let saveAction = UIAlertAction(title: "Save", style: .Default, handler: { [weak self] _ in
-            self?.viewModel.saveAction.apply().start()
+//            self?.viewModel.saveAction.apply().start()
         })
         newPlayerViewController.addAction(saveAction)
 

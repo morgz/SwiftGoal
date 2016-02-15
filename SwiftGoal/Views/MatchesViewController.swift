@@ -184,7 +184,7 @@ class MatchesViewController: UITableViewController, DZNEmptyDataSetDelegate, DZN
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            viewModel.deleteAction.apply(indexPath).start()
+            //viewModel.deleteAction.apply(indexPath).start()
         }
     }
 

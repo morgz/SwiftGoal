@@ -23,12 +23,12 @@ class MatchesViewModel {
     let alertMessageSignal: Signal<String, NoError>
 
     // Actions
-    lazy var deleteAction: Action<NSIndexPath, Bool, NSError> = { [unowned self] in
-        return Action({ indexPath in
-            let match = self.matchAtIndexPath(indexPath)
-            return self.store.deleteMatch(match)
-        })
-    }()
+//    lazy var deleteAction: Action<NSIndexPath, Bool, NSError> = { [unowned self] in
+//        return Action({ indexPath in
+//            let match = self.matchAtIndexPath(indexPath)
+//            return self.store.deleteMatch(match)
+//        })
+//    }()
 
     private let store: StoreType
     private let contentChangesObserver: Observer<MatchChangeset, NoError>
@@ -63,10 +63,10 @@ class MatchesViewModel {
             .start(refreshObserver)
 
         // Trigger refresh after deleting a match
-        deleteAction.values
-            .filter { $0 }
-            .map { _ in () }
-            .observe(refreshObserver)
+//        deleteAction.values
+//            .filter { $0 }
+//            .map { _ in () }
+//            .observe(refreshObserver)
 
         refreshSignal
             .on(next: { _ in isLoading.value = true })
@@ -92,9 +92,9 @@ class MatchesViewModel {
             })
 
         // Feed deletion errors into alert message signal
-        deleteAction.errors
-            .map { $0.localizedDescription }
-            .observe(alertMessageObserver)
+//        deleteAction.errors
+//            .map { $0.localizedDescription }
+//            .observe(alertMessageObserver)
     }
 
     // MARK: - Data Source

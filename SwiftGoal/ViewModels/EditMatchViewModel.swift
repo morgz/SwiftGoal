@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Martin Richter. All rights reserved.
 //
 
-import ReactiveCocoa
 import RxSwift
 
 class EditMatchViewModel {
@@ -29,29 +28,6 @@ class EditMatchViewModel {
     let awayPlayersString = Variable("")
     let inputIsValid = Variable(false)
     
-    let disposeBag = DisposeBag()
-
-    // Actions
-    lazy var saveAction: Action<Void, Bool, NSError> = { [unowned self] in
-        //return Action(enabledIf: self.inputIsValid, { _ in
-        return Action({ _ in
-            /*
-            let parameters = MatchParameters(
-                homePlayers: self.homePlayers.value,
-                awayPlayers: self.awayPlayers.value,
-                homeGoals: self.homeGoals.value,
-                awayGoals: self.awayGoals.value
-            )
-            if let match = self.match {
-                return self.store.updateMatch(match, parameters: parameters)
-            } else {
-                return self.store.createMatch(parameters)
-            }
-            */
-            return SignalProducer.empty
-        })
-    }()
-
     private let store: StoreType
     private let match: Match?
     // ReactiveCocoa:
@@ -59,6 +35,7 @@ class EditMatchViewModel {
     private let homePlayers = Variable([Player]())
     private let awayPlayers = Variable([Player]())
 
+    let disposeBag = DisposeBag()
     // MARK: Lifecycle
 
     init(store: StoreType, match: Match?) {
@@ -113,18 +90,18 @@ class EditMatchViewModel {
             .addDisposableTo(disposeBag)
         
         
-//        Observable.combineLatest(homePlayers.asObservable(), awayPlayers.asObservable()) { $0.count > 0 && $1.count > 0 }
-//           .shareReplay(1).bindTo(self.inputIsValid).addDisposableTo(disposeBag)
-     
-        Observable.combineLatest(homePlayers.asObservable(), awayPlayers.asObservable()) { $0.count > 0 && $1.count > 0 }
-            .bindTo(self.inputIsValid).addDisposableTo(disposeBag)
+        // ReactiveCocoa:
         
-        /*
-        self.inputIsValid <~ combineLatest(homePlayers.producer, awayPlayers.producer)
-            .map { (homePlayers, awayPlayers) in
-                return !homePlayers.isEmpty && !awayPlayers.isEmpty
-            }
-        */
+//        self.inputIsValid <~ combineLatest(homePlayers.producer, awayPlayers.producer)
+//        .map { (homePlayers, awayPlayers) in
+//        return !homePlayers.isEmpty && !awayPlayers.isEmpty
+//        }
+        
+        Observable.combineLatest(homePlayers.asObservable(), awayPlayers.asObservable()) { $0.count > 0 && $1.count > 0 }
+            .shareReplay(1)
+            .bindTo(self.inputIsValid)
+            .addDisposableTo(disposeBag)
+
     }
 
     convenience init(store: StoreType) {

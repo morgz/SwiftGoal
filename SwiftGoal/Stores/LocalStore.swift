@@ -35,9 +35,9 @@ class LocalStore: StoreType {
             let identifier = self.randomIdentifier()
             let match = self.matchFromParameters(parameters, withIdentifier: identifier)
             self.matches.append(match)
-            observer.on(.Next(true))
-            observer.on(.Completed)
-            //observer.on(.Error(Error.MatchDoesntExist)) //No Error cases
+            //observer.on(.Next(true))
+            //observer.on(.Completed)
+            observer.on(.Error(Error.MatchDoesntExist)) //No Error cases
             return AnonymousDisposable {}
         }
     }

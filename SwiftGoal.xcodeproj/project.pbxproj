@@ -50,6 +50,11 @@
 		1B057C851C6DE8E5002E2711 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C841C6DE8E5002E2711 /* RxSwift.framework */; };
 		1B057C871C6DE914002E2711 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C861C6DE914002E2711 /* RxCocoa.framework */; };
 		1B057C891C6DE971002E2711 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B057C881C6DE971002E2711 /* RxBlocking.framework */; };
+		1B3E0DED1C7202F100280773 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E0DEB1C7202F100280773 /* Action.swift */; };
+		1B3E0DEE1C7202F100280773 /* AlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E0DEC1C7202F100280773 /* AlertAction.swift */; };
+		1B3E0DF11C7202F900280773 /* UIBarButtonItem+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E0DEF1C7202F900280773 /* UIBarButtonItem+Action.swift */; };
+		1B3E0DF21C7202F900280773 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E0DF01C7202F900280773 /* UIButton+Rx.swift */; };
+		1B3E0DF51C720F8B00280773 /* rxSwift+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E0DF41C720F8B00280773 /* rxSwift+Result.swift */; };
 		1B43A99B1C6F6F2E00492E02 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B43A99A1C6F6F2E00492E02 /* Array+Extensions.swift */; };
 		5B459DFA1C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B459DF91C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift */; };
 		5B459DFC1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B459DFB1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift */; };
@@ -130,6 +135,11 @@
 		1B057C841C6DE8E5002E2711 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		1B057C861C6DE914002E2711 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 		1B057C881C6DE971002E2711 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/iOS/RxBlocking.framework; sourceTree = "<group>"; };
+		1B3E0DEB1C7202F100280773 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		1B3E0DEC1C7202F100280773 /* AlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertAction.swift; sourceTree = "<group>"; };
+		1B3E0DEF1C7202F900280773 /* UIBarButtonItem+Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Action.swift"; sourceTree = "<group>"; };
+		1B3E0DF01C7202F900280773 /* UIButton+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
+		1B3E0DF41C720F8B00280773 /* rxSwift+Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "rxSwift+Result.swift"; sourceTree = "<group>"; };
 		1B43A99A1C6F6F2E00492E02 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		5B459DF91C3A4C8A00B37AD2 /* RankingsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsViewModelSpec.swift; sourceTree = "<group>"; };
 		5B459DFB1C3A551000B37AD2 /* ManagePlayersViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagePlayersViewModelSpec.swift; sourceTree = "<group>"; };
@@ -339,9 +349,22 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		1B3E0DF31C7202FC00280773 /* RxSwiftAction */ = {
+			isa = PBXGroup;
+			children = (
+				1B3E0DEF1C7202F900280773 /* UIBarButtonItem+Action.swift */,
+				1B3E0DF01C7202F900280773 /* UIButton+Rx.swift */,
+				1B3E0DEB1C7202F100280773 /* Action.swift */,
+				1B3E0DEC1C7202F100280773 /* AlertAction.swift */,
+				1B3E0DF41C720F8B00280773 /* rxSwift+Result.swift */,
+			);
+			name = RxSwiftAction;
+			sourceTree = "<group>";
+		};
 		1B43A99C1C6F6F4600492E02 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1B3E0DF31C7202FC00280773 /* RxSwiftAction */,
 				1B43A99A1C6F6F2E00492E02 /* Array+Extensions.swift */,
 			);
 			name = Extensions;
@@ -491,6 +514,7 @@
 				0FF57F381B433EFD001DD570 /* PlayerCell.swift in Sources */,
 				0F9D10B71B614B71002B9A20 /* RankingCell.swift in Sources */,
 				5BFD9FA01C340B1C00FDEBC6 /* StoreType.swift in Sources */,
+				1B3E0DF51C720F8B00280773 /* rxSwift+Result.swift in Sources */,
 				0FE4EB751B3876C2007F9349 /* EditMatchViewController.swift in Sources */,
 				0F74F7141B00058D00F963E0 /* MatchesViewModel.swift in Sources */,
 				5BFD9FA21C35AFC700FDEBC6 /* LocalStore.swift in Sources */,
@@ -499,12 +523,16 @@
 				0F74F7121B00053D00F963E0 /* MatchesViewController.swift in Sources */,
 				0F691B3E1B1D19DC00FD5AC1 /* Player.swift in Sources */,
 				0FE2A74A1B66E139001F5C5B /* Color.swift in Sources */,
+				1B3E0DEE1C7202F100280773 /* AlertAction.swift in Sources */,
+				1B3E0DF21C7202F900280773 /* UIButton+Rx.swift in Sources */,
 				0FA80BE41B014001000531E3 /* Match.swift in Sources */,
 				0F9D10B51B6140FC002B9A20 /* RankingsViewModel.swift in Sources */,
 				0FE4EB731B38760B007F9349 /* EditMatchViewModel.swift in Sources */,
 				0F74F6F01B0002C400F963E0 /* AppDelegate.swift in Sources */,
+				1B3E0DED1C7202F100280773 /* Action.swift in Sources */,
 				5BF62C941C3819E5006E97C6 /* RankingEngine.swift in Sources */,
 				1B43A99B1C6F6F2E00492E02 /* Array+Extensions.swift in Sources */,
+				1B3E0DF11C7202F900280773 /* UIBarButtonItem+Action.swift in Sources */,
 				0FF7B8B81B3A0CB300808433 /* Extensions.swift in Sources */,
 				0F9D10B91B625124002B9A20 /* Ranking.swift in Sources */,
 				0F2EF8281B24FBF800BABC20 /* MatchCell.swift in Sources */,

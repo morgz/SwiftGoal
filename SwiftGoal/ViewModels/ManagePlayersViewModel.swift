@@ -28,11 +28,11 @@ class ManagePlayersViewModel {
     let inputIsValid = MutableProperty(false)
 
     // Actions
-    lazy var saveAction: Action<Void, Bool, NSError> = { [unowned self] in
-        return Action(enabledIf: self.inputIsValid, { _ in
-            return self.store.createPlayerWithName(self.playerName.value)
-        })
-    }()
+//    lazy var saveAction: Action<Void, Bool, NSError> = { [unowned self] in
+//        return Action(enabledIf: self.inputIsValid, { _ in
+//            return self.store.createPlayerWithName(self.playerName.value)
+//        })
+//    }()
 
     private let store: StoreType
     private let contentChangesObserver: Observer<PlayerChangeset, NoError>
@@ -69,10 +69,10 @@ class ManagePlayersViewModel {
             .map { _ in () }
             .start(refreshObserver)
 
-        saveAction.values
-            .filter { $0 }
-            .map { _ in () }
-            .observe(refreshObserver)
+//        saveAction.values
+//            .filter { $0 }
+//            .map { _ in () }
+//            .observe(refreshObserver)
 
         refreshSignal
             .on(next: { _ in isLoading.value = true })
@@ -98,9 +98,9 @@ class ManagePlayersViewModel {
             })
 
         // Feed saving errors into alert message signal
-        saveAction.errors
-            .map { $0.localizedDescription }
-            .observe(alertMessageObserver)
+//        saveAction.errors
+//            .map { $0.localizedDescription }
+//            .observe(alertMessageObserver)
 
         inputIsValid <~ playerName.producer.map { $0.characters.count > 0 }
     }

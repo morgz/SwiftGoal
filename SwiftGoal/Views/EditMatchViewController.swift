@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import ReactiveCocoa
+//import ReactiveCocoa
 import SnapKit
 import RxCocoa
 import RxSwift
+import Result
 
 class EditMatchViewController: UIViewController {
 
@@ -24,7 +25,6 @@ class EditMatchViewController: UIViewController {
     private weak var homePlayersButton: UIButton!
     private weak var awayPlayersButton: UIButton!
 
-    private var saveAction: CocoaAction?
     private let saveButtonItem: UIBarButtonItem
     
     let disposeBag = DisposeBag()
@@ -34,7 +34,7 @@ class EditMatchViewController: UIViewController {
     init(viewModel: EditMatchViewModel) {
         
         self.viewModel = viewModel
-        //self.saveAction = CocoaAction(viewModel.saveAction, { _ in return () })
+        
         self.saveButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Save,
             target: nil,
@@ -42,7 +42,6 @@ class EditMatchViewController: UIViewController {
         )
         
         super.init(nibName: nil, bundle: nil)
-
 
         // Set up navigation item
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -127,25 +126,21 @@ class EditMatchViewController: UIViewController {
         // Save Match
         //
         //
-        self.saveButtonItem.rx_tap.flatMap { [unowned self] _ -> Observable<Bool> in
-            return self.viewModel.saveMatch()
+        self.saveButtonItem.rx_tap.subscribeOn(MainScheduler.instance).flatMap { [unowned self] _ -> Observable<Result<Bool,Break>> in
+            return self.viewModel.saveMatch().observeOn(MainScheduler.instance)
                 //Catching in an Inner FlatMap stops the button being subscription being terminated
-                .catchError({[unowned self] (error) -> Observable<Bool> in
-                    print("Error Caught")
-                    self.presentErrorMessage("The match could not be saved.")
-                    return Observable.just(true)
-                })
-            }.subscribe( 
-                onNext: { [unowned self] (result) -> Void in
-                    print("Next")
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }, onError: { [unowned self] (error) -> Void in
-                    self.presentErrorMessage("The match could not be saved.")
-                }, onCompleted: { () -> Void in
-                    print("Completed")
-                }) { () -> Void in
-                    print("Disposed")
-            }.addDisposableTo(disposeBag)
+                .mapToFailable()
+        }.subscribeNext { (result) -> Void in
+            switch result {
+            case .Success(let output):
+                print ("Success \(output)")
+                self.dismissViewControllerAnimated(true, completion: nil)
+            case .Failure(let breakError):
+                if let error = breakError.error { print(error) }
+                self.presentErrorMessage("The Match could not be saved")
+            }
+        }.addDisposableTo(disposeBag)
+        
     }
     
     private func bindViewModel() {
@@ -178,10 +173,13 @@ class EditMatchViewController: UIViewController {
 //                self?.homeGoalsLabel.text = formattedHomeGoals
 //            })
         
-        viewModel.formattedHomeGoals.asObservable().bindTo(self.homeGoalsLabel.rx_text)
+        // A driver is a type of Observable that can't error out and is performed on main Thread. For 'driving' UI from your data source
+        // See: https://github.com/ReactiveX/RxSwift/blob/master/Documentation/Units.md
+        
+        viewModel.formattedHomeGoals.asDriver().drive(self.homeGoalsLabel.rx_text)
             .addDisposableTo(disposeBag)
         
-        viewModel.formattedAwayGoals.asObservable().bindTo(self.awayGoalsLabel.rx_text)
+        viewModel.formattedAwayGoals.asDriver().drive(self.awayGoalsLabel.rx_text)
             .addDisposableTo(self.disposeBag)
 
         
@@ -218,20 +216,21 @@ class EditMatchViewController: UIViewController {
             .bindTo(saveButtonItem.rx_enabled)
             .addDisposableTo(disposeBag)
 
-        viewModel.saveAction.events.observeNext({ [weak self] event in
-            switch event {
-            case let .Next(success):
-                if success {
-                    self?.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    self?.presentErrorMessage("The match could not be saved.")
-                }
-            case let .Failed(error):
-                self?.presentErrorMessage(error.localizedDescription)
-            default:
-                return
-            }
-        })
+        // ReactiveCocoa:
+//        viewModel.saveAction.events.observeNext({ [weak self] event in
+//            switch event {
+//            case let .Next(success):
+//                if success {
+//                    self?.dismissViewControllerAnimated(true, completion: nil)
+//                } else {
+//                    self?.presentErrorMessage("The match could not be saved.")
+//                }
+//            case let .Failed(error):
+//                self?.presentErrorMessage(error.localizedDescription)
+//            default:
+//                return
+//            }
+//        })
     }
 
     // MARK: Layout

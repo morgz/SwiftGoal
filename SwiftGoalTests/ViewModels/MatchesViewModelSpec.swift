@@ -133,9 +133,9 @@ class MatchesViewModelSpec: QuickSpec {
                 var deletedSuccessfully = false
 
                 matchesViewModel.active.value = true
-                matchesViewModel.deleteAction.apply(indexPath).startWithNext({ success in
-                    deletedSuccessfully = success
-                })
+//                matchesViewModel.deleteAction.apply(indexPath).startWithNext({ success in
+//                    deletedSuccessfully = success
+//                })
 
                 expect(mockStore.deletedMatch).to(equal(match))
                 expect(deletedSuccessfully).to(beTrue())
